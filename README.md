@@ -6,6 +6,9 @@ Software runs on the pc, and then tablets phones etc connect just using a web br
 
 ## Getting started
 
+PreBuilt source available in the releases section https://github.com/tridionted/desk-command/releases
+
+
 1. Clone this repo/grab the latest built release
 2. If you grabbed pre-built release jump to step 5 
 3. Open in visual studio 

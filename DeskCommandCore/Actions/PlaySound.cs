@@ -24,9 +24,9 @@ namespace Desk_Command_Core.Actions
             var filePath = Path.Combine(path, "wwwRoot", "action", "playsound", SoundFile);
             if (File.Exists(filePath))
             {
-
-                var wplayer = new WMPLib.WindowsMediaPlayer {URL = filePath };
-                wplayer.controls.play();
+                throw new NotImplementedException();
+                //var wplayer = new WMPLib.WindowsMediaPlayer {URL = filePath };
+                //wplayer.controls.play();
             }
             else
             {

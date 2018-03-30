@@ -12,7 +12,7 @@ namespace Desk_Command_Core.Actions
 {
     public class SendKeystrokes : InterfaceAction
     {
-        
+
 
         public SendKeystrokes(string keys, string processNames)
         {
@@ -25,18 +25,18 @@ namespace Desk_Command_Core.Actions
 
 
         public static IntPtr WinGetHandle(string wName)
-        {      
+        {
             foreach (Process pList in Process.GetProcesses())
             {
 
-                Console.WriteLine(pList.ProcessName + pList.Id);
-                if (String.Equals(pList.ProcessName, wName,StringComparison.OrdinalIgnoreCase))
+                //  Console.WriteLine(pList.ProcessName + pList.Id);
+                if (String.Equals(pList.ProcessName, wName, StringComparison.OrdinalIgnoreCase))
                 {
+                    Console.WriteLine($"Handle found for {wName} :   {pList.MainWindowHandle}");
                     return pList.MainWindowHandle;
-                  //  break;
                 }
             }
-            Console.WriteLine($"Could not find Handle for {wName}");
+            Console.WriteLine($"Could not find Handle for {wName} :  {wName}");
             return IntPtr.Zero;
         }
 

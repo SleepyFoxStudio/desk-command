@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using NAudio.Wave;
 
 namespace Desk_Command_Core.Actions
 {
@@ -24,9 +25,16 @@ namespace Desk_Command_Core.Actions
             var filePath = Path.Combine(path, "wwwRoot", "action", "playsound", SoundFile);
             if (File.Exists(filePath))
             {
-                throw new NotImplementedException();
-                //var wplayer = new WMPLib.WindowsMediaPlayer {URL = filePath };
-                //wplayer.controls.play();
+                using (var audioFile = new AudioFileReader(filePath))
+                using (var outputDevice = new WaveOutEvent())
+                {
+                    outputDevice.Init(audioFile);
+                    outputDevice.Play();
+                    while (outputDevice.PlaybackState == PlaybackState.Playing)
+                    {
+                        Thread.Sleep(500);
+                    }
+                }
             }
             else
             {

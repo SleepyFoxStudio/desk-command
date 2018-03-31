@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Desk_Command_Core
+namespace DeskCommandCore
 {
     public interface InterfaceAction
     {

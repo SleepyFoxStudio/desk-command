@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Desk_Command_Core.Actions;
-using Desk_Command_Core.Models;
+using DeskCommandCore.Actions;
+using DeskCommandCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 
-namespace Desk_Command_Core.Controllers
+namespace DeskCommandCore.Controllers
 {
     [Route("api/[controller]")]
     public class LayoutsController : Controller

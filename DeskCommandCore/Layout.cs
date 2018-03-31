@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 
-namespace Desk_Command_Core
+namespace DeskCommandCore
 {
 
     public class Layouts : List<Layout>

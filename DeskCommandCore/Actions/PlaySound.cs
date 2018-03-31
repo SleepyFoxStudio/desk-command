@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NAudio.Wave;
 
-namespace Desk_Command_Core.Actions
+namespace DeskCommandCore.Actions
 {
     class PlaySound : InterfaceAction
     {

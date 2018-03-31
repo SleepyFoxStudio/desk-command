@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Desk_Command_Core.Actions
+namespace DeskCommandCore.Actions
 {
     public class SendKeystrokes : InterfaceAction
     {

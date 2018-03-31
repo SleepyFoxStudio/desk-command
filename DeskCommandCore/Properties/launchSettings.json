@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Desk_Command_Core": {
+    "DeskCommandCore": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "http://localhost:59584/",

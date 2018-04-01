@@ -8,18 +8,17 @@
     <MediaTemplate EmbedCab="yes"/>
 
     <Feature Id="ProductFeature" Title="desk_command.installer" Level="1">
-      <!--<ComponentGroupRef Id="ProductComponents" />-->
       <ComponentGroupRef Id="DeskCommand_Project"/>
       <ComponentRef Id="ApplicationShortcut"/>
     </Feature>
 
     <UIRef Id="WixUI_InstallDir" />
     
-    <Icon Id="icon.ico" SourceFile="..\desk-command.installer\deskcommand.ico"/>
+    <Icon Id="deskCommandIcon" SourceFile="..\desk-command.installer\deskcommand.ico"/>
     <WixVariable Id="WixUILicenseRtf" Value="..\desk-command.installer\License.rtf" />
     <WixVariable Id="WixUIDialogBmp" Value="..\desk-command.installer\WixUIDialogBmp.bmp"/>
     <WixVariable Id="WixUIBannerBmp" Value="..\desk-command.installer\WixUIBannerBmp.bmp" />
-    <Property Id="ARPPRODUCTICON" Value="icon.ico" />
+    <Property Id="ARPPRODUCTICON" Value="deskCommandIcon" />
     
 
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
@@ -30,30 +29,18 @@
       <Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLFOLDER" Name="Desk Command" />
       </Directory>
-      <Directory Id="ProgramMenuFolder">
-        <Directory Id="ApplicationProgramsFolder" Name="Desk Command"/>
-      </Directory>
+      <Directory Id="ProgramMenuFolder" />
     </Directory>
 
-    <DirectoryRef Id="ApplicationProgramsFolder">
+    <DirectoryRef Id="ProgramMenuFolder">
       <Component Id="ApplicationShortcut" Guid="*">
         <Shortcut Id="ApplicationStartMenuShortcut"
                   Name="Desk Command"
                   Description="Desk Command Description"
                   Target="[#$(var.DeskCommandCoreExeComponentId)]"
-                  WorkingDirectory="INSTALLFOLDER"/>
-        <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall"/>
-        <RegistryValue Root="HKCU" Key="Software\Spiderbike\DeskCommand" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+                  WorkingDirectory="INSTALLFOLDER" Icon="deskCommandIcon"/>
+        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\DeskCommand" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
       </Component>
     </DirectoryRef>
-  </Fragment>
-
-  <Fragment>
-    <!--<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-      --><!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. --><!--
-      <Component Id="ProductComponent">
-        <File Source="$(var.DeskCommandCore.TargetPath)" />
-      </Component>
-    </ComponentGroup>-->
   </Fragment>
 </Wix>

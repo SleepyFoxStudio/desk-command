@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="Desk Command" Language="1033" Version="0.2.0.0" Manufacturer="Tridion Ted" UpgradeCode="47cecab7-4f7d-4dc8-a1b4-809ccc545559">
+  <?define DeskCommandCoreExeComponentId="fil86CD623FF593B1934F5F5737810861AA"?>
+  <Product Id="*" Name="Desk Command" Language="1033" Version="0.3.0.0" Manufacturer="Tridion Ted" UpgradeCode="47cecab7-4f7d-4dc8-a1b4-809ccc545559">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." AllowSameVersionUpgrades="yes"  />
@@ -9,6 +10,7 @@
     <Feature Id="ProductFeature" Title="desk_command.installer" Level="1">
       <!--<ComponentGroupRef Id="ProductComponents" />-->
       <ComponentGroupRef Id="DeskCommand_Project"/>
+      <ComponentRef Id="ApplicationShortcut"/>
     </Feature>
 
     <UIRef Id="WixUI_InstallDir" />
@@ -28,7 +30,22 @@
       <Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLFOLDER" Name="Desk Command" />
       </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="Desk Command"/>
+      </Directory>
     </Directory>
+
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="*">
+        <Shortcut Id="ApplicationStartMenuShortcut"
+                  Name="Desk Command"
+                  Description="Desk Command Description"
+                  Target="[#$(var.DeskCommandCoreExeComponentId)]"
+                  WorkingDirectory="INSTALLFOLDER"/>
+        <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\Spiderbike\DeskCommand" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
   </Fragment>
 
   <Fragment>

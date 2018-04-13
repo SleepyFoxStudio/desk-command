@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using DeskCommandCore.Properties;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Server.Features;
 
 namespace DeskCommandCore
 {
@@ -27,6 +28,7 @@ namespace DeskCommandCore
         public TrayHelper(Microsoft.AspNetCore.Hosting.IWebHost _webHost)
         {
             this._webHost = _webHost;
+            _webHost.Start();
 
             System.Drawing.Icon trayStoppedIcon;
             using (var iconStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("DeskCommandCore.Resources.trayRunning.ico"))
@@ -48,8 +50,11 @@ namespace DeskCommandCore
 
             _hiddenWindow = new System.Windows.Window();
             _hiddenWindow.Hide();
-            
-            UserMessage("Welcome to Desk Command", "Click on the icon below to start");
+
+
+
+
+            ShowRunningMessage();
         }
 
         private void UserMessage(string title, string text, EventHandler<EventArgs> eventHandler = null)
@@ -73,8 +78,7 @@ namespace DeskCommandCore
             if (_notifyIcon.ContextMenuStrip.Items.Count == 0)
             {
 
-                _notifyIcon.ContextMenuStrip.Items.Add(ToolStripMenuItemWithHandler("Start Desk Command Interface", "Start the Desk Command Interface so you can access it from external devices.", StartWeb_Click));
-                _notifyIcon.ContextMenuStrip.Items.Add(ToolStripMenuItemWithHandler("Stop Desk Command Interface", "Stop the Desk Command Interface.", StopWeb_Click));
+                _notifyIcon.ContextMenuStrip.Items.Add(ToolStripMenuItemWithHandler("Show Command Interface", "Show the Desk Command UI on your local PC.", ShowUi));
                 _notifyIcon.ContextMenuStrip.Items.Add(ToolStripMenuItemWithHandler("Code Project Web Site", "Navigates to the Code Project Web Site", ShowWebSite_Click));
                 _notifyIcon.ContextMenuStrip.Items.Add(new ToolStripSeparator());
                 _exitMenuItem = ToolStripMenuItemWithHandler("&Exit", "Exits System Tray App", exitItem_Click);
@@ -106,28 +110,48 @@ namespace DeskCommandCore
             return item;
         }
 
-        private void StartWeb_Click(object sender, EventArgs e)
+        private void ShowRunningMessage()
         {
-            _webHost.Start();
-            UserMessage("Desk Command running", "Now running, you can access the interface via http://localhost:5000/", notifyIcon_BalloonTipClicked);
+            Uri address = GetWebHostAddress();
+
+            string runningMessage = "Now running";
+            if (address != null)
+            {
+                runningMessage += $", you can access the interface via {address}";
+            }
+
+            UserMessage("Desk Command running", runningMessage, ShowUi);
         }
 
-        private void StopWeb_Click(object sender, EventArgs e)
+        private Uri GetWebHostAddress()
         {
-            _webHost.StopAsync(TimeSpan.FromMilliseconds(5000));
+            var address = _webHost.ServerFeatures?.Get<IServerAddressesFeature>()?.Addresses?.FirstOrDefault();
+
+            Uri sanitizedAddress = null;
+            if (address != null)
+            {
+                var uriBuilder = new UriBuilder(address);
+                if (uriBuilder.Host == "0.0.0.0")
+                    uriBuilder.Host = "localhost";
+
+                sanitizedAddress = uriBuilder.Uri;
+            }
+
+            return sanitizedAddress;
         }
+
+
 
         private static void ShowWebSite_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/tridionted/desk-command");
         }
 
-
-        void notifyIcon_BalloonTipClicked(object sender, EventArgs e)
+        void ShowUi(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("http://localhost:5000/");
+            var address = GetWebHostAddress();
+            System.Diagnostics.Process.Start(address.ToString());
         }
-
 
 
         private void exitItem_Click(object sender, EventArgs e)

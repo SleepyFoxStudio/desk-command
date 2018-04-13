@@ -17,7 +17,6 @@
     },
     "DeskCommandCore": {
       "commandName": "Project",
-      "launchBrowser": true,
       "launchUrl": "http://localhost:59584/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

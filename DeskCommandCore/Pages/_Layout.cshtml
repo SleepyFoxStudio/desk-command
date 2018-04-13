@@ -40,8 +40,42 @@
     <div class="container" id="mainContent">
         @RenderBody()
     </div>
+    
+    
+    
+    
+<div class="row">
+    <p></p>
+    <div class="col-md-12">
+        <form action="#">
+            <table>
+                <tr>
+                    <td>Name</td>
+                    <td colspan="2">
+                        <input type="text" id="user" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Message</td>
+                    <td colspan="2">
+                        <input type="text" id="message" />
+                    </td>
+                    <td>    
+                        <input type="submit" id="send" value="Send" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <p></p>
+        <ul id="messages" style="list-style-type:none;"></ul>
+    </div>
+</div>
+    
+    
+<script src="~/lib/signalr.js"></script>
+<script src="~/js/chat.js"></script>
 
-    @*<environment include="Development">
+@*<environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>

@@ -1,4 +1,5 @@
-﻿using AutoMapper.Configuration;
+﻿using System;
+using AutoMapper.Configuration;
 using DeskCommandCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,7 +21,10 @@ namespace DeskCommandCore
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<Models.LayoutsConfig>(Configuration.GetSection("Layouts"));
+            services.AddSignalR();
             services.AddMvc();
+
+            services.AddTransient<ChatHub>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -32,9 +36,27 @@ namespace DeskCommandCore
                 app.UseDeveloperExceptionPage();
             }
 
+            app.Use(async (context, next) =>
+            {
+                try
+                {
+                    await next();
+                }
+                catch (Exception ex)
+                {
+                    
+                }
+            });
+
             app.UseMvc();
 
             app.UseStaticFiles();
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/chathub");
+            });
+
 
             AutoMapper.Mapper.Initialize(new MapperConfigurationExpression { CreateMissingTypeMaps = true });
         }

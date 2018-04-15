@@ -24,14 +24,15 @@ namespace DeskCommandCore.Controllers
 
         private readonly IHubContext<ChatHub> _hubContext;
         private readonly LayoutsConfig _layoutsConfig;
-        private readonly Layouts _layouts;
         private readonly Dictionary<string, Layout> _layoutDict;
+        private readonly Layouts _layouts;
 
-        public LayoutsController(IOptionsSnapshot<LayoutsConfig> layoutsConfigAccessor, IHubContext<ChatHub> hubContext)
+
+        public LayoutsController(IOptionsSnapshot<LayoutsConfig> layoutsConfigAccessor, IHubContext<ChatHub> hubContext, Layouts layouts)
         {
+            _layouts = layouts;
             _hubContext = hubContext;
             _layoutsConfig = layoutsConfigAccessor.Value;
-            _layouts = ReadConfig(_layoutsConfig);
             _layoutDict = _layouts.ToDictionary(l => l.LayoutId);
         }
 
@@ -88,37 +89,7 @@ namespace DeskCommandCore.Controllers
             return layout.Items[itemIndex];
         }
 
-        private static Layouts ReadConfig(LayoutsConfig config)
-        {
-            var layouts = new Layouts();
-            foreach (var layoutConfig in config)
-            {
-                var layout = new Layout
-                {
-                    LayoutId = layoutConfig.LayoutId,
-                    Title = layoutConfig.Title
-                };
 
-                foreach (var itemConfig in layoutConfig.Items)
-                {
-                    var layoutItem = new LayoutItem
-                    {
-                        Icon = itemConfig.Icon,
-                        IconRunning = itemConfig.IconRunning,
-                        Text = itemConfig.Text
-                    };
-
-                    var actionType = Assembly.GetExecutingAssembly().GetType(itemConfig.Action);
-                    var action = (InterfaceAction)Activator.CreateInstance(actionType, itemConfig.Arguments);
-                    layoutItem.Action = action;
-
-                    layout.Items.Add(layoutItem);
-                }
-
-                layouts.Add(layout);
-            }
-            return layouts;
-        }
 
     }
 

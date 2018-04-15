@@ -1,8 +1,10 @@
 ﻿using System;
 using AutoMapper.Configuration;
 using DeskCommandCore;
+using DeskCommandCore.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
@@ -25,6 +27,11 @@ namespace DeskCommandCore
             services.AddMvc();
 
             services.AddTransient<ChatHub>();
+            var configManager = new ConfigManagaer();
+
+            var layoutsConfig = Configuration.GetSection("Layouts").Get<LayoutsConfig>();
+            var layouts = configManager.ReadConfig(layoutsConfig);
+            services.AddSingleton(layouts);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

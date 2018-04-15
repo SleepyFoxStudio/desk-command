@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using DeskCommandCore.Actions;
 using DeskCommandCore.Models;
@@ -33,9 +35,9 @@ namespace DeskCommandCore.Controllers
             _layoutDict = _layouts.ToDictionary(l => l.LayoutId);
         }
 
-        public async Task SendToAll(string message)
+        public async Task ChangeButtonImage(string id, int actionId, string imgUrl)
         {
-            await _hubContext.Clients.All.SendAsync("ReceiveMessage", message);
+            await _hubContext.Clients.All.SendAsync("ChangeImage",id, actionId,imgUrl);
         }
 
 
@@ -60,9 +62,18 @@ namespace DeskCommandCore.Controllers
         [HttpPost("{id}/do/{actionId:int}")]
         public async Task DoAction(string id, int actionId)
         {
-            await SendToAll($"Doing {id}, {actionId}");
             var layoutItem = FindLayoutItem(id, actionId);
+            layoutItem.IsRunning = true;
+            //if (layoutItem?.IconRunning != null)
+            //{
+            //    await ChangeButtonImage(id, actionId, layoutItem.IconRunning);
+            //}
             layoutItem?.Action.Do();
+            //if (layoutItem?.Icon != null)
+            //{
+            //    await ChangeButtonImage(id, actionId, layoutItem.Icon);
+            //}
+            layoutItem.IsRunning = false;
         }
 
 
@@ -93,6 +104,7 @@ namespace DeskCommandCore.Controllers
                     var layoutItem = new LayoutItem
                     {
                         Icon = itemConfig.Icon,
+                        IconRunning = itemConfig.IconRunning,
                         Text = itemConfig.Text
                     };
 

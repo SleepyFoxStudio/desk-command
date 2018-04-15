@@ -22,6 +22,7 @@ namespace DeskCommandCore.Models
     public class LayoutItem
     {
         public string Icon { get; set; }
+        public string IconRunning { get; set; }
         public string Text { get; set; }
     }
 }

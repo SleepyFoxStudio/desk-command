@@ -28,9 +28,6 @@ function toggleFullScreen() {
 }
 
 function doAction(layoutIndex, itemIndex) {
-    $("#layoutDiv div:nth-child(1) a img").addClass('ActionRunning');
-
-
     $.post("/api/layouts/" + layoutIndex + "/do/" + itemIndex,
             function (data) {
                 console.log("All good running doAction(" + layoutIndex + "," + itemIndex + ")");
@@ -38,10 +35,6 @@ function doAction(layoutIndex, itemIndex) {
         .fail(function () {
             console.log("Error running doAction(" + layoutIndex + "," + itemIndex + ")");
         });
-
-
-    $("#layoutDiv div:nth-child(1) a img").removeClass('ActionRunning');
-
 }
 
 
@@ -66,14 +59,16 @@ function loadLayoutList() {
     $.getJSON("/api/layouts",
         function (data) {
             var layoutList = $('#layoutList');
+            var currentLayoutId;
             $.each(data, function (index, layout) {
-                if ("#" +encodeURI(layout.layoutId) === location.hash)
+
+                if (isCurrentLayout(layout.layoutId))
                 {
                     currentLayoutId = layout.layoutId;
                 }
-                var title = layout.title;
+                const title = layout.title;
                 var id = layout.layoutId;
-                var listItem = $('<li class="nav-item"><a class="nav-link" href="#"><span>' + title + '</span></a></li>');
+                const listItem = $(`<li class="nav-item"><a class="nav-link" href="#"><span>${title}</span></a></li>`);
                 listItem.find("a").click(function (event) {
                     location.hash = id;
                     populateLayout(id);
@@ -86,11 +81,19 @@ function loadLayoutList() {
                 populateLayout(currentLayoutId);
             }
             else {
-                var firstLayout = data[0];
+                const firstLayout = data[0];
                 populateLayout(firstLayout.layoutId);
             }
         })
         .fail(function () {
             console.log("Error running loadLayoutList()");
         });
+}
+
+
+function isCurrentLayout(layoutId) {
+    if ("#" + encodeURI(layoutId) === location.hash) {
+        return true;
+    }
+    return false;
 }

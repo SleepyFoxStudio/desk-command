@@ -1,4 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR;
 
 
 namespace DeskCommandCore
@@ -17,11 +22,41 @@ namespace DeskCommandCore
 
     }
 
-    public class LayoutItem
+    public class LayoutItem : INotifyPropertyChanged
     {
+        private bool _isRunning;
         public string Icon { get; set; }
+        public string IconRunning { get; set; }
         public string Text { get; set; }
+
         //[DataMember(Name = "action", Order = 1)]
         public InterfaceAction Action { get; set; }
+        public bool IsRunning
+        {
+            get => _isRunning;
+            set
+            {
+                if (value != _isRunning)
+                {
+                    _isRunning = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        // This method is called by the Set accessor of each property.
+        // The CallerMemberName attribute that is applied to the optional propertyName
+        // parameter causes the property name of the caller to be substituted as an argument.
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        }
     }
+
+
+
+
+
 }

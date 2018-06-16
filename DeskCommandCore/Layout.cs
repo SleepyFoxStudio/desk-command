@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
+using Newtonsoft.Json;
 
 
 namespace DeskCommandCore
@@ -15,9 +16,13 @@ namespace DeskCommandCore
 
     public class Layout
     {
+        [JsonProperty("layoutId")]
         public string LayoutId { get; set; }
+
+        //[JsonProperty("title")]
         public string Title { get; set; }
 
+        [JsonProperty("items")]
         public List<LayoutItem> Items { get; set; } = new List<LayoutItem>();
 
     }
@@ -36,11 +41,9 @@ namespace DeskCommandCore
             get => _isRunning;
             set
             {
-                if (value != _isRunning)
-                {
-                    _isRunning = value;
-                    NotifyPropertyChanged();
-                }
+                if (value == _isRunning) return;
+                _isRunning = value;
+                NotifyPropertyChanged();
             }
         }
 

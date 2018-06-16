@@ -50,20 +50,26 @@ namespace DeskCommandCore.Controllers
             return layoutsDto;
         }
 
-        [HttpGet("{id}")]
-        public Models.Layout GetLayout(string id)
-        {
+        //[HttpGet("{id}")]
+        //public Models.Layout GetLayout(string id)
+        //{
 
-            var u = FindLayout(id);
-            var layoutsDto = AutoMapper.Mapper.Map<Models.Layout>(u);
+        //    var u = FindLayout(id);
+        //    var layoutsDto = AutoMapper.Mapper.Map<Models.Layout>(u);
 
-            return layoutsDto;
-        }
+        //    return layoutsDto;
+        //}
 
         [HttpPost("{id}/do/{actionId:int}")]
         public async Task DoAction(string id, int actionId)
         {
             var layoutItem = FindLayoutItem(id, actionId);
+            if (layoutItem.IsRunning)
+            {
+                //We don`t want to run it if it`s already running, maybe we wont to stop it?
+                //TODO: stop it if they have clicked to start and is already running
+                return;
+            }
             layoutItem.IsRunning = true;
             //if (layoutItem?.IconRunning != null)
             //{

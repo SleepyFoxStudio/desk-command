@@ -60,28 +60,28 @@ namespace DeskCommandCore.Controllers
         //    return layoutsDto;
         //}
 
-        [HttpPost("{id}/do/{actionId:int}")]
-        public async Task DoAction(string id, int actionId)
-        {
-            var layoutItem = FindLayoutItem(id, actionId);
-            if (layoutItem.IsRunning)
-            {
-                //We don`t want to run it if it`s already running, maybe we wont to stop it?
-                //TODO: stop it if they have clicked to start and is already running
-                return;
-            }
-            layoutItem.IsRunning = true;
-            //if (layoutItem?.IconRunning != null)
-            //{
-            //    await ChangeButtonImage(id, actionId, layoutItem.IconRunning);
-            //}
-            layoutItem?.Action.Do();
-            //if (layoutItem?.Icon != null)
-            //{
-            //    await ChangeButtonImage(id, actionId, layoutItem.Icon);
-            //}
-            layoutItem.IsRunning = false;
-        }
+        //[HttpPost("{id}/do/{actionId:int}")]
+        //public async Task DoAction(string id, int actionId)
+        //{
+        //    var layoutItem = FindLayoutItem(id, actionId);
+        //    if (layoutItem.IsRunning)
+        //    {
+        //        //We don`t want to run it if it`s already running, maybe we wont to stop it?
+        //        //TODO: stop it if they have clicked to start and is already running
+        //        return;
+        //    }
+        //    layoutItem.IsRunning = true;
+        //    //if (layoutItem?.IconRunning != null)
+        //    //{
+        //    //    await ChangeButtonImage(id, actionId, layoutItem.IconRunning);
+        //    //}
+        //    layoutItem?.Action.Do();
+        //    //if (layoutItem?.Icon != null)
+        //    //{
+        //    //    await ChangeButtonImage(id, actionId, layoutItem.Icon);
+        //    //}
+        //    layoutItem.IsRunning = false;
+        //}
 
 
         private Layout FindLayout(string layoutId)

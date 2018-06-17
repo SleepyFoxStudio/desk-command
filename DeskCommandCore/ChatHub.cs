@@ -16,9 +16,28 @@ namespace DeskCommandCore
         {
             _layouts = layouts;
             _layoutDict = _layouts.ToDictionary(l => l.LayoutId, StringComparer.OrdinalIgnoreCase);
+
+            foreach (var layout in layouts)
+            {
+                layout.LayoutChanged += LayoutOnLayoutChanged;
+            }
         }
 
+        private void LayoutOnLayoutChanged(object sender, LayoutChangedEventArgs layoutChangedEventArgs)
+        {
+            var layout = sender as Layout;
+            if (layout == null)
+                return;
 
+            try
+            {
+                GetLayoutInternal(layout).Wait();
+            }
+            catch (Exception ex)
+            {
+                
+            }
+        }
 
         public Task InitializeGui()
         {
@@ -30,6 +49,23 @@ namespace DeskCommandCore
         }
 
 
+
+        public Task DoAction(string layout, int itemIndex)
+        {
+            var layoutItem = FindLayoutItem(layout, itemIndex);
+
+
+            if (layoutItem.IsRunning)
+            {
+                //We don`t want to run it if it`s already running, maybe we wont to stop it?
+                //TODO: stop it if they have clicked to start and is already running
+                return Task.CompletedTask;
+            }
+            layoutItem.IsRunning = true;
+            layoutItem?.Action.Do();
+            layoutItem.IsRunning = false;
+            return Task.CompletedTask;
+        }
 
 
 
@@ -50,18 +86,14 @@ namespace DeskCommandCore
         public Task GetLayout(string layout)
         {
             var u = FindLayout(layout);
-            var layoutsDto = AutoMapper.Mapper.Map<Models.Layout>(u);
-
-            return Clients.All.SendAsync("ReceiveLayout", layoutsDto);
+            return GetLayoutInternal(u);
         }
 
-
-
-
-        public Task SendMessage(string user, string message)
+        public Task GetLayoutInternal(Layout layout)
         {
-            string timestamp = DateTime.Now.ToShortTimeString();
-            return Clients.All.SendAsync("ReceiveMessage", timestamp, user, message);
+            var layoutsDto = AutoMapper.Mapper.Map<Models.Layout>(layout);
+
+            return Clients.All.SendAsync("ReceiveLayout", layoutsDto);
         }
 
 

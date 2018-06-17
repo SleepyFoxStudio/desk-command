@@ -9,8 +9,6 @@ function populateFirstLayout() {
 }
 
 connection.on("ReceiveLayout", (layout) => {
-
-
     console.log('Receiving layout : ' + layout);
     itemCount = 0;
     $("#layoutDiv").empty();
@@ -24,25 +22,17 @@ connection.on("ReceiveLayout", (layout) => {
 
 
 
-connection.on("ReceiveMessage", (timestamp, user, message) => {
-    const encodedUser = user;
-    const encodedMsg = message;
-    const listItem = document.createElement("li");
-    listItem.innerText = timestamp + " " + encodedUser + ": " + encodedMsg;
-    document.getElementById("messages").appendChild(listItem);
-});
 
 
 
 
 connection.on("ReceiveLayoutHeadings", (layouts) => {
     console.log("List of layouts updated");
+    var layoutList = $('#layoutList');
+    layoutList.empty();
     for (var key in layouts) {
         if (layouts.hasOwnProperty(key)) {
             // check if the property/key is defined in the object itself, not in parent
-
-            var layoutList = $('#layoutList');
-
 
             const title = layouts[key];
             const id = key;
@@ -56,8 +46,6 @@ connection.on("ReceiveLayoutHeadings", (layouts) => {
                 event.stopPropagation();
             });
             layoutList.append(listItem);
-
-
         }
     }
 
@@ -75,13 +63,13 @@ connection.on("ChangeImage", (id, actionId, imgUrl) => {
     }
 });
 
-document.getElementById("send").addEventListener("click", event => {
-    const msg = document.getElementById("message").value;
-    const usr = document.getElementById("user").value;
 
-    connection.invoke("SendMessage", usr, msg).catch(err => showErr(err));
-    event.preventDefault();
-});
+function doAction(layoutIndex, itemIndex) {
+    connection.invoke("DoAction", layoutIndex, itemIndex).catch(err => showErr(err));
+}
+
+
+
 
 function showErr(msg) {
     const listItem = document.createElement("li");
@@ -101,10 +89,10 @@ connection.start().catch(err => showErr(err));
 
 
 
-var newYearCountdown = setInterval(function () {
+var checkForConnection = setInterval(function () {
     console.log("Waiting to connect to Server.");
     if (connection.connection.connectionState === 1) {
         guiStarted();
-        clearInterval(newYearCountdown);
+        clearInterval(checkForConnection);
     }
 }, 500);

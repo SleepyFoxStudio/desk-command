@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -14,8 +16,75 @@ namespace DeskCommandCore
     {
     }
 
+    public class LayoutChangedEventArgs : EventArgs
+    {
+        
+    }
+
     public class Layout
     {
+        private readonly ObservableCollection<LayoutItem> _items = new ObservableCollection<LayoutItem>();
+        private readonly List<LayoutItem> _backingItems = new List<LayoutItem>();
+
+        public Layout()
+        {
+            _items.CollectionChanged += _items_CollectionChanged;
+        }
+
+        private void _items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    foreach (LayoutItem item in e.NewItems)
+                    {
+                        item.PropertyChanged += ItemOnPropertyChanged;
+                        _backingItems.Add(item);
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    foreach (LayoutItem item in e.OldItems)
+                    {
+                        item.PropertyChanged -= ItemOnPropertyChanged;
+                        _backingItems.Remove(item);
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                    foreach (LayoutItem item in e.NewItems)
+                    {
+                        item.PropertyChanged += ItemOnPropertyChanged;
+                        _backingItems.Add(item);
+                    }
+                    foreach (LayoutItem item in e.OldItems)
+                    {
+                        item.PropertyChanged -= ItemOnPropertyChanged;
+                        _backingItems.Remove(item);
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Move:
+                    break;
+                case NotifyCollectionChangedAction.Reset:
+                    foreach (LayoutItem item in _backingItems)
+                    {
+                        item.PropertyChanged -= ItemOnPropertyChanged;
+                    }
+                    _backingItems.Clear();
+                    foreach (LayoutItem item in _items)
+                    {
+                        item.PropertyChanged += ItemOnPropertyChanged;
+                        _backingItems.Add(item);
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private void ItemOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            OnLayoutChanged();
+        }
+
         [JsonProperty("layoutId")]
         public string LayoutId { get; set; }
 
@@ -23,8 +92,14 @@ namespace DeskCommandCore
         public string Title { get; set; }
 
         [JsonProperty("items")]
-        public List<LayoutItem> Items { get; set; } = new List<LayoutItem>();
+        public IList<LayoutItem> Items => _items;
 
+
+        public event EventHandler<LayoutChangedEventArgs> LayoutChanged;
+        private void OnLayoutChanged()
+        {
+            LayoutChanged?.Invoke(this, new LayoutChangedEventArgs());
+        }
     }
 
     public class LayoutItem : INotifyPropertyChanged
@@ -54,8 +129,9 @@ namespace DeskCommandCore
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
         }
+
+
     }
 
 

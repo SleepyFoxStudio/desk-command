@@ -12,9 +12,6 @@ using Newtonsoft.Json;
 namespace DeskCommandCore
 {
 
-    public class Layouts : List<Layout>
-    {
-    }
 
     public class LayoutChangedEventArgs : EventArgs
     {

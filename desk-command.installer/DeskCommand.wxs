@@ -50,6 +50,12 @@
             <Component Id="cmp521A61C1834D10D45464D67212347AEA" Guid="*">
                 <File Id="fil43F2E8D3767129784BCAAB51CDD2CAEB" KeyPath="yes" Source="$(var.BasePath)\Microsoft.AspNetCore.Authorization.Policy.dll" />
             </Component>
+            <Component Id="cmp9936F7D00150BAD506646EAACFC257CE" Guid="*">
+                <File Id="fil972FD3CEF8CB8F155464106ED4BD3517" KeyPath="yes" Source="$(var.BasePath)\Microsoft.AspNetCore.Connections.Abstractions.dll" />
+            </Component>
+            <Component Id="cmp348FA46397C74FFE6E44E24CA6CE6AF2" Guid="*">
+                <File Id="filA09DD6621D0FD486608D1938B107537F" KeyPath="yes" Source="$(var.BasePath)\Microsoft.AspNetCore.CookiePolicy.dll" />
+            </Component>
             <Component Id="cmp87DF4D455B6B00793855CD0731397535" Guid="*">
                 <File Id="fil7E29FBD14527E24755F2037D6360B5AB" KeyPath="yes" Source="$(var.BasePath)\Microsoft.AspNetCore.Cors.dll" />
             </Component>
@@ -85,6 +91,12 @@
             </Component>
             <Component Id="cmpB785B661067DB1CA34160E239CB75395" Guid="*">
                 <File Id="filB8FC2B616B6AB94D52B70B5BCCA8544A" KeyPath="yes" Source="$(var.BasePath)\Microsoft.AspNetCore.Http.Abstractions.dll" />
+            </Component>
+            <Component Id="cmp90AE7DA915886E172E32BBB0D32031EF" Guid="*">
+                <File Id="fil0B876C2B5282BE43FD80F72A6AD5680E" KeyPath="yes" Source="$(var.BasePath)\Microsoft.AspNetCore.Http.Connections.Common.dll" />
+            </Component>
+            <Component Id="cmpEEB394FF5A6F43DEE728A59E7059ECD0" Guid="*">
+                <File Id="filB61BF26CCEDB48458958F64B63D47AAF" KeyPath="yes" Source="$(var.BasePath)\Microsoft.AspNetCore.Http.Connections.dll" />
             </Component>
             <Component Id="cmp5AA201CA9529E78168BA0DB83D052443" Guid="*">
                 <File Id="filB1617F0F36FC063B8EF312503F17B36B" KeyPath="yes" Source="$(var.BasePath)\Microsoft.AspNetCore.Http.dll" />
@@ -187,6 +199,9 @@
             </Component>
             <Component Id="cmp8882E31816746321733AFEDCD228F05D" Guid="*">
                 <File Id="fil868776245DFB2635005330C61E0C687D" KeyPath="yes" Source="$(var.BasePath)\Microsoft.AspNetCore.SignalR.dll" />
+            </Component>
+            <Component Id="cmp04D52716B710464041ECCFE3AD03CBAB" Guid="*">
+                <File Id="fil99252331CF74E2AE0B53E440797C3395" KeyPath="yes" Source="$(var.BasePath)\Microsoft.AspNetCore.SignalR.Protocols.Json.dll" />
             </Component>
             <Component Id="cmp4F45049AF6AAA14AAC90F45CA8638859" Guid="*">
                 <File Id="fil9278CED55EAB2ADE9386235894BF0EDC" KeyPath="yes" Source="$(var.BasePath)\Microsoft.AspNetCore.Sockets.Abstractions.dll" />
@@ -457,6 +472,9 @@
             </Component>
             <Component Id="cmp27E36B7C8DB5461A9579366D20E5DD16" Guid="*">
                 <File Id="fil7F43DE255F0B70BD8014CC9F0611E6A9" KeyPath="yes" Source="$(var.BasePath)\System.IO.MemoryMappedFiles.dll" />
+            </Component>
+            <Component Id="cmpF88B96E5973E0D28B511DC6371DB06E0" Guid="*">
+                <File Id="filA72770FDC08B6447ABAA326398A3C786" KeyPath="yes" Source="$(var.BasePath)\System.IO.Pipelines.dll" />
             </Component>
             <Component Id="cmpB23C66A8B8F46E3F568C19DFB6A6E1A4" Guid="*">
                 <File Id="fil8EAA03164AF160196E835AAF613219D0" KeyPath="yes" Source="$(var.BasePath)\System.IO.Pipes.dll" />
@@ -752,6 +770,9 @@
                     <Component Id="cmpB328AA3988DCD91DF9F129D8C9A40963" Guid="*">
                         <File Id="filAEFECA5AB283679580ED35342F2B0EF2" KeyPath="yes" Source="$(var.BasePath)\wwwroot\lib\signalr.js" />
                     </Component>
+                    <Component Id="cmpCDD8626EF44264CB50937C645589FB96" Guid="*">
+                        <File Id="filFF398CD83D22B138B830DAAF78D74CA6" KeyPath="yes" Source="$(var.BasePath)\wwwroot\lib\signalr.js.map" />
+                    </Component>
                 </Directory>
             </Directory>
         </DirectoryRef>
@@ -774,6 +795,8 @@
             <ComponentRef Id="cmp4360B3FAB167E275A064F2DF668A52D9" />
             <ComponentRef Id="cmp2F0A313AE6306F9CE5E760AF214DC789" />
             <ComponentRef Id="cmp521A61C1834D10D45464D67212347AEA" />
+            <ComponentRef Id="cmp9936F7D00150BAD506646EAACFC257CE" />
+            <ComponentRef Id="cmp348FA46397C74FFE6E44E24CA6CE6AF2" />
             <ComponentRef Id="cmp87DF4D455B6B00793855CD0731397535" />
             <ComponentRef Id="cmp812311456C3163FF729BC046128CA1FD" />
             <ComponentRef Id="cmpBE0BFEF4DD691A30DCA43D36B46700B7" />
@@ -786,6 +809,8 @@
             <ComponentRef Id="cmp814280B7D7CD9EBEEB44E2B6B4ED6311" />
             <ComponentRef Id="cmpAEB0F23F43D853D5803CE54F18060506" />
             <ComponentRef Id="cmpB785B661067DB1CA34160E239CB75395" />
+            <ComponentRef Id="cmp90AE7DA915886E172E32BBB0D32031EF" />
+            <ComponentRef Id="cmpEEB394FF5A6F43DEE728A59E7059ECD0" />
             <ComponentRef Id="cmp5AA201CA9529E78168BA0DB83D052443" />
             <ComponentRef Id="cmpF40B4D1D6FE0D97477BEEC7082C6D1F3" />
             <ComponentRef Id="cmp03A336BE1F43229AE0BC3ED221CB70B1" />
@@ -820,6 +845,7 @@
             <ComponentRef Id="cmp862450267E0B3EA8D88D5D50AEAF71EF" />
             <ComponentRef Id="cmp5961C0C0F306F611D6875C300ED70419" />
             <ComponentRef Id="cmp8882E31816746321733AFEDCD228F05D" />
+            <ComponentRef Id="cmp04D52716B710464041ECCFE3AD03CBAB" />
             <ComponentRef Id="cmp4F45049AF6AAA14AAC90F45CA8638859" />
             <ComponentRef Id="cmpBDCF70EE006E22DC23BA629E71109A16" />
             <ComponentRef Id="cmp109D2832B9EF6F8DF2A3AE5710CF186C" />
@@ -910,6 +936,7 @@
             <ComponentRef Id="cmp43533F1C6D869598C6A682154C94696E" />
             <ComponentRef Id="cmpBEA123016451982E36F3B409E9D6426F" />
             <ComponentRef Id="cmp27E36B7C8DB5461A9579366D20E5DD16" />
+            <ComponentRef Id="cmpF88B96E5973E0D28B511DC6371DB06E0" />
             <ComponentRef Id="cmpB23C66A8B8F46E3F568C19DFB6A6E1A4" />
             <ComponentRef Id="cmp5338A7F671CC8A6B5D8355578A8A889A" />
             <ComponentRef Id="cmpC0FA693A1C79F59FC93C10CFD37D42F2" />
@@ -1004,6 +1031,7 @@
             <ComponentRef Id="cmp65039776B655AE264AC48B57328D3DB9" />
             <ComponentRef Id="cmp2EC4BD035D14FB52596C598398B328A1" />
             <ComponentRef Id="cmpB328AA3988DCD91DF9F129D8C9A40963" />
+            <ComponentRef Id="cmpCDD8626EF44264CB50937C645589FB96" />
         </ComponentGroup>
     </Fragment>
 </Wix>

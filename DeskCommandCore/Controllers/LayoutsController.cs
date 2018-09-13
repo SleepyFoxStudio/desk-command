@@ -33,7 +33,7 @@ namespace DeskCommandCore.Controllers
             _layouts = layouts;
             _hubContext = hubContext;
             _layoutsConfig = layoutsConfigAccessor.Value;
-            _layoutDict = _layouts.ToDictionary(l => l.LayoutId);
+            _layoutDict = _layouts.AllLayouts.ToDictionary(l => l.LayoutId);
         }
 
         public async Task ChangeButtonImage(string id, int actionId, string imgUrl)

@@ -7,7 +7,7 @@ using DeskCommandCore.Models;
 
 namespace DeskCommandCore
 {
-    internal class ConfigManagaer
+    internal class ConfigManager
     {
         public Layouts ReadConfig(LayoutsConfig config)
         {
@@ -32,11 +32,13 @@ namespace DeskCommandCore
                     var actionType = Assembly.GetExecutingAssembly().GetType(itemConfig.Action);
                     var action = (InterfaceAction)Activator.CreateInstance(actionType, itemConfig.Arguments);
                     layoutItem.Action = action;
-
                     layout.Items.Add(layoutItem);
                 }
-
-                layouts.Add(layout);
+                if (layouts.ActiveLayout == null)
+                {
+                    layouts.ActiveLayout = layout;
+                }
+                layouts.AllLayouts.Add(layout);
             }
             return layouts;
         }

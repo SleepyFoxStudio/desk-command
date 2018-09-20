@@ -8,7 +8,7 @@ namespace DeskCommandCore
     public class Layouts
     {
 
-        public Layout ActiveLayout { get; set; }
+      //  public Layout ActiveLayout { get; set; }
         public List<Layout> AllLayouts { get; set; } = new List<Layout>();
     }
 }

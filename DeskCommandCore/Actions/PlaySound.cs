@@ -18,27 +18,39 @@ namespace DeskCommandCore.Actions
         
         public string SoundFile { get; set; }
 
-        public void Do()
+        public Task Do()
         {
-            if (string.IsNullOrWhiteSpace(SoundFile)) return;
+            if (string.IsNullOrWhiteSpace(SoundFile)) return Task.CompletedTask;
             var path = Directory.GetCurrentDirectory();
             var filePath = Path.Combine(path, "wwwRoot", "action", "playsound", SoundFile);
             if (File.Exists(filePath))
             {
-                using (var audioFile = new AudioFileReader(filePath))
-                using (var outputDevice = new WaveOutEvent())
-                {
-                    outputDevice.Init(audioFile);
-                    outputDevice.Play();
-                    while (outputDevice.PlaybackState == PlaybackState.Playing)
-                    {
-                        Thread.Sleep(500);
-                    }
-                }
+                return PlayAsync(filePath);
             }
             else
             {
                 Console.WriteLine($"Error finding sound to play '{filePath}'");
+            }
+            return Task.CompletedTask;
+        }
+
+        private async Task PlayAsync(string filePath)
+        {
+            var tcs = new TaskCompletionSource<StoppedEventArgs>();
+
+            EventHandler<StoppedEventArgs> stopHandler = (sender, args) =>
+            {
+                tcs.SetResult(args);
+            };
+
+            using (var audioFile = new AudioFileReader(filePath))
+            using (var outputDevice = new WaveOutEvent())
+            {
+                outputDevice.Init(audioFile);
+                outputDevice.Play();
+                outputDevice.PlaybackStopped += stopHandler;
+                await tcs.Task;
+                outputDevice.PlaybackStopped -= stopHandler;
             }
         }
     }

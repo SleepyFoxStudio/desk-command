@@ -15,12 +15,13 @@ namespace DeskCommandCore.Actions
 
         public string Url { get; set; }
 
-        public void Do()
+        public Task Do()
         {
             if (!string.IsNullOrWhiteSpace(Url))
             {
                 System.Diagnostics.Process.Start(Url);
             }
+            return Task.CompletedTask;
         }
     }
 }

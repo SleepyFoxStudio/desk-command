@@ -34,10 +34,6 @@ namespace DeskCommandCore
                     layoutItem.Action = action;
                     layout.Items.Add(layoutItem);
                 }
-                if (layouts.ActiveLayout == null)
-                {
-                    layouts.ActiveLayout = layout;
-                }
                 layouts.AllLayouts.Add(layout);
             }
             return layouts;

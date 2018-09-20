@@ -9,9 +9,10 @@ namespace DeskCommandCore.Actions.Obs
     public class ObsToggleRecording : InterfaceAction
     {
 
-        public void Do()
+        public Task Do()
         {
             ObsWrapper.Instance.ToggleRecording();
+            return Task.CompletedTask;
         }
     }
 }

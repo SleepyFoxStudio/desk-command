@@ -49,9 +49,9 @@ namespace DeskCommandCore.Actions
 
 
 
-        public void Do()
+        public Task Do()
         {
-            if (String.IsNullOrWhiteSpace(Keys)) return;
+            if (String.IsNullOrWhiteSpace(Keys)) return Task.CompletedTask;
             foreach (var processName in ProcessNames)
             {
                 try
@@ -73,6 +73,7 @@ namespace DeskCommandCore.Actions
                     Console.WriteLine(ex);
                 }
             }
+            return Task.CompletedTask;
         }
     }
 }

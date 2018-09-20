@@ -2,8 +2,8 @@
     .withUrl("/chathub")
     .build();
 
-function getUi() {
-    connection.invoke("GetUi").catch(err => showErr(err));
+function getUi(id) {
+    connection.invoke("SetActiveLayout",id).catch(err => showErr(err));
 }
 
 
@@ -26,6 +26,7 @@ connection.on("ReceiveUi", (layout) => {
 
             listItem.find("a").click(function (event) {
                 location.hash = id;
+                getUi(id);
                 event.preventDefault();
                 event.stopPropagation();
             });
@@ -43,7 +44,7 @@ connection.on("ReceiveUi", (layout) => {
         var icon = items.icon;
         var title = items.text;
         console.log("Adding LayoutItem " + title);
-        $("#layoutDiv").append('<div class="col-lg-3 col-md-4 col-xs-6 layoutItemContainer"><a href="#" onclick="doAction(\'' + layout.layoutId + '\',\'' + itemCount + '\');return false" class="d-block mb-4"><img class="img-fluid img-thumbnail" src="/icons/' + icon + '" alt=""><div class="title bottom">' + title + '</div></a></div>');
+        $("#layoutDiv").append('<div class="col-lg-3 col-md-4 col-xs-6 layoutItemContainer"><a href="#" onclick="doAction(\'' + layout.selectedLayout + '\',\'' + itemCount + '\');return false" class="d-block mb-4"><img class="img-fluid img-thumbnail" src="/icons/' + icon + '" alt=""><div class="title bottom">' + title + '</div></a></div>');
         itemCount++;
     });
 });
@@ -110,7 +111,8 @@ connection.on("ReceiveUi", (layout) => {
 
 
 function doAction(layoutIndex, itemIndex) {
-    connection.invoke("DoAction", layoutIndex, itemIndex).catch(err => showErr(err));
+    connection.send("DoAction", layoutIndex, itemIndex).catch(err => showErr(err));
+    console.log("action invoked");
 }
 
 

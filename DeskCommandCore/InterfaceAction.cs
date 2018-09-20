@@ -8,6 +8,6 @@ namespace DeskCommandCore
 {
     public interface InterfaceAction
     {
-        void Do();
+        Task Do();
     }
 }

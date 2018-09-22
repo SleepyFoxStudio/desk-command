@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
 using AutoMapper;
 using DeskCommandCore.Models;
 using Microsoft.AspNetCore.SignalR;
@@ -10,32 +11,26 @@ namespace DeskCommandCore
 {
     public class ChatHub : Hub
     {
-        private readonly Layouts _layouts;
-        private Ui _ui { get; set; }
+        private readonly ClientUiManager _clientUiManager;
+        private readonly List<Layout> _layouts;
 
-
-        public ChatHub(Layouts layouts)
+        public ChatHub(Layouts layouts, ClientUiManager clientUiManager)
         {
-            _layouts = layouts;
-            UpdateUiModel();
+            _clientUiManager = clientUiManager;
+            _layouts = layouts.AllLayouts;
         }
 
         public override Task OnConnectedAsync()
         {
-            SendUiModel();
+            _clientUiManager.AddClient(Context.ConnectionId);
+            _clientUiManager.ChangeClientLayout(Context.ConnectionId, _layouts.First().LayoutId);
             return base.OnConnectedAsync();
         }
-
-        private void SendUiModel()
-        {
-            Clients.All.SendAsync("ReceiveUi", _ui);
-        }
-
 
         public void DoAction(string layout, int itemIndex)
         {
             System.Diagnostics.Debug.WriteLine($"Starting {layout} {itemIndex}");
-            var layoutItem = _layouts.AllLayouts.Find(t => t.LayoutId == layout).Items[itemIndex];
+            var layoutItem = _layouts.Find(t => t.LayoutId == layout).Items[itemIndex];
 
             if (layoutItem.IsRunning)
             {
@@ -56,35 +51,7 @@ namespace DeskCommandCore
 
         public void SetActiveLayout(string layout)
         {
-            _ui.SelectedLayout = layout;
-            UpdateUiModel();
-            SendUiModel();
-        }
-
-
-
-        private void UpdateUiModel()
-        {
-
-            var ui = new Ui();
-
-       
-            foreach (var layout in _layouts.AllLayouts)
-            {
-                ui.Headings.Add(new Heading { Id = layout.LayoutId, Title = layout.Title });
-                if (_ui?.SelectedLayout == layout.LayoutId || 
-                    ( _ui == null && layout.LayoutId == _layouts.AllLayouts.FirstOrDefault()?.LayoutId))
-                {
-                    ui.SelectedLayout = layout.LayoutId;
-                    foreach (var item in layout.Items)
-                    {
-                        ui.Items.Add(new Models.LayoutItem() { Icon = item.Icon, IconRunning = "aftereffects.png", Text = item.Text });
-                    }
-                }
-            }
-            ui.Items.Add(new Models.LayoutItem() { Icon = "aftereffects.png", Text = DateTime.Now.ToLongTimeString() });
-
-            _ui = ui;
+            _clientUiManager.ChangeClientLayout(Context.ConnectionId, layout);
         }
     }
 }

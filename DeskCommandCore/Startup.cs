@@ -2,9 +2,11 @@
 using AutoMapper.Configuration;
 using DeskCommandCore;
 using DeskCommandCore.Models;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
@@ -30,9 +32,10 @@ namespace DeskCommandCore
             });
 
 
-            services.Configure<Models.LayoutsConfig>(Configuration.GetSection("Layouts"));
+            services.Configure<Models.Config.Layouts>(Configuration.GetSection("Layouts"));
             services.AddSignalR();
             services.AddMvc();
+            services.AddMediatR();
 
             services.AddCors(options => options.AddPolicy("CorsPolicy",
                 builder =>
@@ -42,12 +45,12 @@ namespace DeskCommandCore
                         .AllowCredentials();
                 }));
 
+            services.AddSingleton<ConfigurationMonitor>();
+            services.AddSingleton<LayoutProvider>();
+            services.AddSingleton<ClientUiManager>();
 
-            var configManager = new ConfigManager();
 
-            var layoutsConfig = Configuration.GetSection("Layouts").Get<LayoutsConfig>();
-            var layouts = configManager.ReadConfig(layoutsConfig);
-            services.AddSingleton(layouts);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,6 +84,7 @@ namespace DeskCommandCore
 
             app.UseMvc();
 
+            
             AutoMapper.Mapper.Initialize(new MapperConfigurationExpression { CreateMissingTypeMaps = true });
         }
     }

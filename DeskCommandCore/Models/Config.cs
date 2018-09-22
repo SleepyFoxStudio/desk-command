@@ -4,22 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeskCommandCore.Models
+namespace DeskCommandCore.Models.Config
 {
-    public class LayoutsConfig : List<LayoutConfig>
-    {
-    }
+    public class Layouts : List<Layout>
+    { }
 
-    public class LayoutConfig
+    public class Layout
     {
         public string LayoutId { get; set; }
         public string Title { get; set; }
-
-        public List<LayoutItemConfig> Items { get; set; } = new List<LayoutItemConfig>();
-
+        public List<LayoutItem> Items { get; set; } = new List<LayoutItem>();
     }
 
-    public class LayoutItemConfig
+    public class LayoutItem
     {
         public string Icon { get; set; }
         public string IconRunning { get; set; }

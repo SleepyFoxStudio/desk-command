@@ -12,13 +12,11 @@ namespace DeskCommandCore.Models
         public string SelectedLayout { get; set; }
         public List<Heading> Headings { get; set; } = new List<Heading>();
         public List<LayoutItem> Items { get; set; } = new List<LayoutItem>();
-
     }
 
     public class Heading
     {
         public string Title { get; set; }
         public string Id { get; set; }
-
     }
 }

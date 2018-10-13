@@ -5,8 +5,48 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DeskCommandEditor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="MainWindow" Height="800" Width="900">
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="#FF92CAF4" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#FF92CAF4" />
+        </Style>
+
+    </Window.Resources>
+
+    <Grid Background="Black">
+        <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Left" Margin="10,43,0,0" Width="571" Name="IconListControl" SelectionChanged="IconListControl_SelectionChanged" Height="366" VerticalAlignment="Top">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="3" Columns="3"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+
+        </ListBox>
+
+
+        <ListView HorizontalAlignment="Left" Height="399" Margin="586,10,0,0" VerticalAlignment="Top" Width="296" Name="Plugins"/>
+
+            <ComboBox HorizontalAlignment="Left" Height="22" Margin="77,10,0,0" VerticalAlignment="Top" Width="504" Name="LayoutDropdown" SelectionChanged="LayoutDropdown_SelectionChanged"/>
+        <Label Content="Layout" HorizontalAlignment="Left" Height="22.115" Margin="10,10,0,0" VerticalAlignment="Top" Width="63.077" Background="Black" Foreground="#FF92CAF4" FontSize="16" Padding="5,0,0,0"/>
+        <Grid HorizontalAlignment="Left" Margin="10,414,0,0" Width="571" Name="ArgumentGrid" Height="345" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="386*" />
+                <ColumnDefinition Width="11*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+        </Grid>
+
+
     </Grid>
 </Window>

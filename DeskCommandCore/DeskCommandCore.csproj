@@ -1,25 +1,27 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
-
+<Project Sdk="Microsoft.NET.Sdk.Web" ToolsVersion="15.0">
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
     <ApplicationIcon />
     <OutputType>WinExe</OutputType>
     <StartupObject />
     <RuntimeIdentifiers>win7-x86</RuntimeIdentifiers>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="Properties\PublishProfiles\**" />
     <Content Remove="Properties\PublishProfiles\**" />
     <EmbeddedResource Remove="Properties\PublishProfiles\**" />
     <None Remove="Properties\PublishProfiles\**" />
   </ItemGroup>
-
   <ItemGroup>
     <None Remove="Resources\trayRunning.ico" />
     <None Remove="Resources\trayStopped.ico" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.2" />
@@ -31,23 +33,19 @@
     <PackageReference Include="NAudio" Version="1.7.3" />
     <PackageReference Include="obs-websocket-dotnet" Version="4.2.0-beta3" />
   </ItemGroup>
-
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Include="Resources\trayRunning.ico" />
     <EmbeddedResource Include="Resources\trayStopped.ico" />
   </ItemGroup>
-
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -55,16 +53,13 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
-
 </Project>

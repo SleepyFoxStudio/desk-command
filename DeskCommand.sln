@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
+# Blend for Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeskCommandCore", "DeskCommandCore\DeskCommandCore.csproj", "{D02F1B5C-1D79-4961-A928-65566B2B6D9F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeskCommandCore", "DeskCommandCore\DeskCommandCore.csproj", "{D02F1B5C-1D79-4961-A928-65566B2B6D9F}"
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "desk-command.installer", "desk-command.installer\desk-command.installer.wixproj", "{415D7401-B35A-4BE7-BAB7-451055B2871D}"
 EndProject
